@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 jupyter = "*"
 pytest = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
 
 [dev-packages]
 
