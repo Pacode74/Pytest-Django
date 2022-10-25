@@ -87,11 +87,10 @@ __pycache__/
 .idea/
 
 # Exclude following folders:
-#/images/*/
 images/
-/my_jupyter_notebooks/*/
-#/teacher notebooks/*/
 teacher notebooks/
+my_jupyter_notebooks/
+/my_jupyter_notebooks/*/
 
 # Exclude pipenv virtual environment files:
 .venv/
