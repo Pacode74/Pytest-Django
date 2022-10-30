@@ -9,6 +9,7 @@ pytest = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
+black = "*"
 
 [dev-packages]
 

@@ -1,4 +1,4 @@
-Objecting of the project: To build Django app (Corona vs tech) that includes writing End-to-End (E2E) Pytest Suit for it. We are going to have a complete Continuous Integration System that is going to run our tests each time that we make a push to multiple repositories. It will show the status Fail is one of our tests failed. The emphases in the project goes mainly to pytesting. 
+Object of the project: To build Django app (Corona vs tech) that includes writing End-to-End (E2E) Pytest Suit for it. We are going to have a complete Continuous Integration System that is going to run our tests each time that we make a push to multiple repositories. It will show the status Fail is one of our tests failed. The emphases in the project goes mainly to pytesting. 
 
 Corona vs tech application will be able to list which companies are hiring, firing or hiring freeze in Corona time. 
 
