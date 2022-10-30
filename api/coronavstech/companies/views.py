@@ -2,7 +2,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Company
-from serializers import CompanySerializer
+from .serializers import CompanySerializer
 
 
 class CompanyViewSet(ModelViewSet):
@@ -24,5 +24,5 @@ Companies.objects.all() = SELECT * from Company
 Then we order them by last update.
 
 (3) we create pages numbers so that our Server is working fast. 
-This is done so that we don't get timedout as only part of the pages are received at a time. 
+This is done so that we don't get timeout as only part of the pages are received at a time. 
 """
