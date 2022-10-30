@@ -10,6 +10,7 @@ djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
 black = "*"
+autopep8 = "*"
 
 [dev-packages]
 
