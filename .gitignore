@@ -91,7 +91,7 @@ images/
 teacher notebooks/
 my_jupyter_notebooks/
 /my_jupyter_notebooks/*/
-api/coronavstech/coronavstech/settings.py
+# api/coronavstech/coronavstech/settings.py
 api/coronavstech/db.sqlite3
 
 # Exclude pipenv virtual environment files:

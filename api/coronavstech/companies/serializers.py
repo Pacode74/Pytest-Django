@@ -5,7 +5,14 @@ from api.coronavstech.companies.models import Company
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company  # (1)
-        fields = ["id", "name", "status", "application_link", "last_update", "notes"]  # (2)
+        fields = [
+            "id",
+            "name",
+            "status",
+            "application_link",
+            "last_update",
+            "notes",
+        ]  # (2)
 
 
 """
