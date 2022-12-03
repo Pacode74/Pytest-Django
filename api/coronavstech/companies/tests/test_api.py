@@ -4,35 +4,38 @@ from django.test import Client
 from django.urls import reverse
 import pytest
 
+from api.coronavstech.companies.models import Company
 
+"""
+Look at explanation in notebook 'Pytest automatic testing for our Django application_Section 6'
+in 'Step 23 - Writing our first pytests'
+"""
+
+@pytest.mark.django_db
 class TestGetCompanies(TestCase):
     def test_zero_companies_should_return_empty_list(self) -> None:
         """Test that we GET zero companies. If we fetch the GET request we expect to get empty list."""
-        client = Client()  # (1)
+        client = Client()
         # companies_url = "http://127.0.0.1:8000/companies/"
-        companies_url = reverse("companies-list")  # (2)
+        companies_url = reverse("companies-list")
         response = client.get(companies_url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json.loads(response.content), [])  # (3)
+        self.assertEqual(json.loads(response.content), [])
 
+    def test_one_company_exists_should_succeed(self) -> None:
+        """We want to have one company in our test database and
+        when we retrieve it we want to return just one company.
+        """
+        client = Client()
+        test_company = Company.objects.create(name="Amazon")
+        companies_url = reverse("companies-list")
+        response = client.get(companies_url)
+        print(response.content)
+        response_content = json.loads(response.content)[0]
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_content.get("name"), test_company.name)
+        self.assertEqual(response_content.get("status"), "Hiring")
+        self.assertEqual(response_content.get("application_link"), "")
+        self.assertEqual(response_content.get("notes"), "")
+        test_company.delete()
 
-if __name__ == '__main__':
-    pytest.main()
-
-"""
-Notes:
-(1) 
-Client is like a Postman. It is going this object that sends POST request, GET requests.
-https://docs.djangoproject.com/en/4.1/topics/testing/tools/
-
-(2)
-The argument `companies` comes from api.coronavstech.companies.urls.py from basename="companies".
-"companies-list" means we want to get companies' list.
-https://www.django-rest-framework.org/api-guide/routers/#api-guide
-
-(3)
-We don't have any companies initialized so the response is expected to be an empty list.
-
-(4) We get an error when running the pytest because we need to add Django project to our PYTHONPATH.
-We are trying to run Django test with Pytest. 
-"""
