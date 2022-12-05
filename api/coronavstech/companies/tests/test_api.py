@@ -102,3 +102,15 @@ class TestPostCompanies(BasicCompanyAPITestCase):
     @pytest.mark.skip
     def test_should_be_skipped(self)-> None:
         assert 1 ==2
+
+    def raise_covid19_exception(self) ->None:
+        raise ValueError("CoronaVirus Exception")
+
+    def test_raise_covid19_exception_should_pass(self)-> None:
+        """test that will catch ValueError exception when it is risen
+         and test that the text of the exception is correct"""
+        with pytest.raises(ValueError) as e:
+            self.raise_covid19_exception()
+        assert "CoronaVirus Exception" == str(e.value)
+
+
