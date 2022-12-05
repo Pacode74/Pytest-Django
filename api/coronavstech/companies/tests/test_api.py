@@ -8,8 +8,7 @@ from api.coronavstech.companies.models import Company
 
 """
 Look at explanation in notebook 'Pytest automatic testing for our Django application_Section 6'
-in 'Step 25 - API test Class (unittest style). Create BasicCompanyAPITestCase Class. 
-Write Tests POST Companies'
+in 'Step 27 - Pytest tests that accert Exceptions'
 """
 
 
