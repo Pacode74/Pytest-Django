@@ -3,12 +3,12 @@ from unittest import TestCase
 from django.test import Client
 from django.urls import reverse
 import pytest
-
+import logging
 from api.coronavstech.companies.models import Company
 
 """
 Look at explanation in notebook 'Pytest automatic testing for our Django application_Section 6'
-in 'Step 27 - Pytest tests that accert Exceptions'
+in Step 28 - Pytest that assert Logs'
 """
 
 
@@ -111,5 +111,57 @@ class TestPostCompanies(BasicCompanyAPITestCase):
         with pytest.raises(ValueError) as e:
             self.raise_covid19_exception()
         assert "CoronaVirus Exception" == str(e.value)
+# -------------------------------------------------------------------
+    @staticmethod
+    def function_that_logs_something_warning_level() -> None:
+        """Function that raises a ValueError exception.
+        It catches that exception. It logs a warning level"""
+        logger = logging.getLogger('CORONA_LOGS')  # initialize the logger
+        try:
+            raise ValueError("CoronaVirus Exception")
+        except ValueError as e:
+            logger.warning(f"I am logging {str(e)}")
 
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
+
+    def test_exception_logged_warning_level(self) -> None:
+        """Test that exception was raised"""
+        self.function_that_logs_something_warning_level()
+        assert "I am logging CoronaVirus Exception" in self._caplog.text
+   #--------------------------------------------------------------------1
+
+    @staticmethod
+    def logger()-> None:
+        logging.getLogger().info("I am logging info level")
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
+
+    def test_logged_info_level(self) -> None:
+        with self._caplog.at_level(logging.INFO):
+            self.logger()
+            print(f'self._caplog.text:{self._caplog.text}')
+            assert "I am logging info level" in self._caplog.text
+
+# ---------------------------------------------------------2
+    @staticmethod
+    def function_that_logs_something_info_level() -> None:
+        """Function that raises a ValueError exception.
+        It catches that exception. It logs a warning level"""
+        logger = logging.getLogger('CORONA_LOGS')  # initialize the logger
+        try:
+            raise ValueError("CoronaVirus Exception")
+        except ValueError as e:
+            logger.info(f"I am logging {str(e)}")
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
+
+    def test_exception_logged_info_level(self) -> None:
+        with self._caplog.at_level(logging.INFO):
+            self.function_that_logs_something_info_level()
+            print(f'self._caplog.text:{self._caplog.text}')
+            assert "I am logging CoronaVirus Exception" in self._caplog.text
 
