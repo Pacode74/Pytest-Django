@@ -1,14 +1,20 @@
 import json
-from unittest import TestCase
+import unittest
 from django.test import Client
 from django.urls import reverse
 import pytest
 import logging
 from api.coronavstech.companies.models import Company
-from api.coronavstech.companies.exception_logging.exception_logging_info_level import function_that_logs_something_info_level
-from api.coronavstech.companies.exception_logging.exception_logging_warning_level import function_that_logs_something_warning_level
+from api.coronavstech.companies.exception_logging.exception_logging_info_level import (
+    function_that_logs_something_info_level,
+)
+from api.coronavstech.companies.exception_logging.exception_logging_warning_level import (
+    function_that_logs_something_warning_level,
+)
 from api.coronavstech.companies.exception_logging.logging_func import logger
-from api.coronavstech.companies.exception_logging.raise_covid19_exception import raise_covid19_exception
+from api.coronavstech.companies.exception_logging.raise_covid19_exception import (
+    raise_covid19_exception,
+)
 
 """
 Look at explanation in notebook 'Pytest automatic testing for our Django application_Section 6'
@@ -18,7 +24,8 @@ separating apps from tests.
 
 
 @pytest.mark.django_db
-class BasicCompanyAPITestCase(TestCase):
+class BasicCompanyAPITestCase(unittest.TestCase):
+    """In unittest the class inherits from unittest.TestCase"""
     def setUp(self) -> None:
         self.client = Client()
         self.companies_url = reverse("companies-list")
@@ -76,8 +83,10 @@ class TestPostCompanies(BasicCompanyAPITestCase):
             {"name": ["company with this name already exists."]},
         )
 
-    def test_create_company_with_only_name_all_fields_should_be_default(self)->None:
-        response = self.client.post(path=self.companies_url, data={"name": "test company name"})
+    def test_create_company_with_only_name_all_fields_should_be_default(self) -> None:
+        response = self.client.post(
+            path=self.companies_url, data={"name": "test company name"}
+        )
         print(response.content)
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 201)
@@ -86,35 +95,45 @@ class TestPostCompanies(BasicCompanyAPITestCase):
         self.assertEqual(response_content.get("application_link"), "")
         self.assertEqual(response_content.get("notes"), "")
 
-    def test_create_company_with_layoffs_status_should_succeed(self)-> None:
-        response = self.client.post(path=self.companies_url, data={"name": "test company name", "status": "Layoffs"})
+    def test_create_company_with_layoffs_status_should_succeed(self) -> None:
+        response = self.client.post(
+            path=self.companies_url,
+            data={"name": "test company name", "status": "Layoffs"},
+        )
         print(response.content)
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response_content.get("status"), "Layoffs")
 
     def test_create_company_with_wrong_status_should_fail(self) -> None:
-        response = self.client.post(path=self.companies_url, data={"name": "test company name", "status": "WrongStatus"})
-        print(f'response.content:{response.content}')
+        response = self.client.post(
+            path=self.companies_url,
+            data={"name": "test company name", "status": "WrongStatus"},
+        )
+        print(f"response.content:{response.content}")
         self.assertEqual(response.status_code, 400)
         self.assertIn("WrongStatus", str(response.content))
         self.assertIn("is not a valid choice", str(response.content))
 
+
 class TestInGeneralMarkXfailAndSkip(BasicCompanyAPITestCase):
     @pytest.mark.xfail(reason="Test is executed but is skipped")
-    def test_should_be_ok_if_fails(self)-> None:
+    def test_should_be_ok_if_fails(self) -> None:
         assert 1 == 2
+
     @pytest.mark.skip
-    def test_should_be_skipped(self)-> None:
-        assert 1 ==2
+    def test_should_be_skipped(self) -> None:
+        assert 1 == 2
+
 
 class TestInGeneralRaisException(BasicCompanyAPITestCase):
-    def test_raise_covid19_exception_should_pass(self)-> None:
+    def test_raise_covid19_exception_should_pass(self) -> None:
         """test that will catch ValueError exception when it is risen
-         and test that the text of the exception is correct"""
+        and test that the text of the exception is correct"""
         with pytest.raises(ValueError) as e:
             raise_covid19_exception()
         assert "CoronaVirus Exception" == str(e.value)
+
 
 class TestInGeneralExceptionLogging(BasicCompanyAPITestCase):
     @pytest.fixture(autouse=True)
@@ -132,15 +151,12 @@ class TestInGeneralExceptionLogging(BasicCompanyAPITestCase):
         """Testing exception was raised and logged at INFO level"""
         with self._caplog.at_level(logging.INFO):
             function_that_logs_something_info_level()
-            print(f'self._caplog.text:{self._caplog.text}')
+            print(f"self._caplog.text:{self._caplog.text}")
             assert "I am logging CoronaVirus Exception" in self._caplog.text
 
     def test_logged_info_level(self) -> None:
         """Testing logging function at INFO level"""
         with self._caplog.at_level(logging.INFO):
-            logger() # imported from exception_logging
-            print(f'self._caplog.text:{self._caplog.text}')
+            logger()  # imported from exception_logging
+            print(f"self._caplog.text:{self._caplog.text}")
             assert "I am logging info level" in self._caplog.text
-
-
-
