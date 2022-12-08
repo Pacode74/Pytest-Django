@@ -26,6 +26,7 @@ separating apps from tests.
 @pytest.mark.django_db
 class BasicCompanyAPITestCase(unittest.TestCase):
     """In unittest the class inherits from unittest.TestCase"""
+
     def setUp(self) -> None:
         self.client = Client()
         self.companies_url = reverse("companies-list")
