@@ -26,4 +26,4 @@ jobs:
         pipenv install --system
     - name: Test with pytest
       run: |
-        pytest api/coronavstech -s -v --durations=0
+        pytest -s -v --durations=0
