@@ -25,12 +25,12 @@ jobs:
         pip install pipenv --upgrade
         pipenv install --system
     - name: Test with pytest
-      run: |
-        echo $PYTHONPATH
-        echo $DJANGO_SETTINGS_MODULE
-        echo $SECRET_KEY
       env:
         PYTHONPATH: ${{ secrets.PYTHONPATH }}
         DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-#        pytest api/coronavstech -s -v --durations=0
+      run: |
+        echo $PYTHONPATH
+        echo $DJANGO_SETTINGS_MODULE
+        echo $SECRET_KEY
+        pytest api/coronavstech -s -v --durations=0
