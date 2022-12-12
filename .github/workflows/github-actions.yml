@@ -24,6 +24,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install pipenv --upgrade
         pipenv install --system
-    - name: Test with pytest
-      run: |
-        pytest -s -v --durations=0
+        echo PYTHONPATH
+        echo DJANGO_SETTINGS_MODULE
+#    - name: Test with pytest
+#      run: |
+#        pytest api/coronavstech -s -v --durations=0
