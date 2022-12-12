@@ -30,7 +30,7 @@ jobs:
         DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
-#        echo $PYTHONPATH
-#        echo $DJANGO_SETTINGS_MODULE
-#        echo $SECRET_KEY
+        echo $PYTHONPATH
+        echo $DJANGO_SETTINGS_MODULE
+        echo $SECRET_KEY
         pytest api/coronavstech -s -v --durations=0
