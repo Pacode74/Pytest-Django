@@ -1,6 +1,7 @@
 from django.core.mail import send_mail
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.request import Request
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
@@ -14,7 +15,7 @@ class CompanyViewSet(ModelViewSet):
     pagination_class = PageNumberPagination  # (3)
 
 @api_view(http_method_names=["POST"])
-def send_company_email(request):
+def send_company_email(request: Request)->Response:
     """
     Function that will send email with request payload.
     With the help of REST FRAMEWORK decorator `@api_view()`
@@ -22,7 +23,7 @@ def send_company_email(request):
     sender: pavlo_ivanov@yahoo.com
     receiver: pavlo_ivanov@yahoo.com
     """
-    send_mail(subject="My cool subject", message="My cool message", from_email="python.testme@gmail.com", recipient_list=["python.testme@gmail.com"])
+    send_mail(subject=request.data.get("subject"), message=request.data.get("message"), from_email="python.testme@gmail.com", recipient_list=["python.testme@gmail.com"])
     return Response({"status": "success", "info": "email sent successfully"}, status=200)
 
 
