@@ -29,8 +29,10 @@ jobs:
         PYTHONPATH: ${{ secrets.PYTHONPATH }}
         DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
       run: |
         echo $PYTHONPATH
         echo $DJANGO_SETTINGS_MODULE
         echo $SECRET_KEY
+        echo $EMAIL_HOST_PASSWORD
         pytest api/coronavstech -s -v --durations=0
