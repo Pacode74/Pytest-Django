@@ -20,9 +20,10 @@ def send_company_email(request: Request)->Response:
     Function that will send email with request payload.
     With the help of REST FRAMEWORK decorator `@api_view()`
     we will treat our function as POST endpoint.
-    sender: pavlo_ivanov@yahoo.com
-    receiver: pavlo_ivanov@yahoo.com
+    sender: python.testme@gmail.com
+    receiver: python.testme@gmail.com
     """
+    # sent_mail will be mocked in test_email_unittest.py
     send_mail(subject=request.data.get("subject"), message=request.data.get("message"), from_email="python.testme@gmail.com", recipient_list=["python.testme@gmail.com"])
     return Response({"status": "success", "info": "email sent successfully"}, status=200)
 
