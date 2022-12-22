@@ -4,6 +4,9 @@ from django.core import mail
 from django.test import TestCase
 from django.test import Client
 
+# look at the jupyter notebook file at:
+# /home/pavlo/Documents/Projects/Pytest-Django/my_jupyter_notebooks/Django email service_Section 8_Steps 33 -35.ipynb
+
 class EmailUnitTest(TestCase):
     def test_send_email_should_be_succeed(self)-> None:
         with self.settings(EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'):
