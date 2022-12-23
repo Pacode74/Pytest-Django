@@ -8,6 +8,10 @@ from django.test import Client
 # /home/pavlo/Documents/Projects/Pytest-Django/my_jupyter_notebooks/Django email service_Section 8_Steps 33 -35.ipynb
 
 class EmailUnitTest(TestCase):
+    """Test using 'django.test' native framework.
+    It uses the same unittest style assertions like
+    for example 'self.assertEqual()'. It is because 'django.test'
+    is wrapping the unittest library."""
     def test_send_email_should_be_succeed(self)-> None:
         with self.settings(EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'):
             self.assertEqual(len(mail.outbox), 0)  # (3)
