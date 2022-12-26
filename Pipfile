@@ -12,6 +12,7 @@ django-filter = "*"
 black = "*"
 autopep8 = "*"
 pytest-django = "*"
+pytest-cov = "*"
 
 [dev-packages]
 
