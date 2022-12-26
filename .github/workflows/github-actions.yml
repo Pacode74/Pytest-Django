@@ -35,4 +35,5 @@ jobs:
         echo $DJANGO_SETTINGS_MODULE
         echo $SECRET_KEY
         echo $EMAIL_HOST_PASSWORD
-        pytest api/coronavstech -s -v --durations=0
+        pytest api/coronavstech -s -v --durations=0 --cov=.
+        pytest fibonacci -s -v --durations=0 --cov=.
