@@ -9,7 +9,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  DjangoAPI-Test:
+  DjangoAPICompany-Test:
 
     runs-on: ubuntu-latest
 
