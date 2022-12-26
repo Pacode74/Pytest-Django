@@ -36,4 +36,4 @@ jobs:
         echo $SECRET_KEY
         echo $EMAIL_HOST_PASSWORD
         pytest api/coronavstech -s -v --durations=0 --cov=.
-        pytest fibonacci -s -v --durations=0 --cov=.
+        pytest fibonacci/apps -s -v --durations=0 --cov=.
