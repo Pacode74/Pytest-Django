@@ -1,5 +1,5 @@
-from apps.fib_cached import fibonacci_cached, fibonacci_lru_cached
-from apps.fib_recursive import fibonacci_naive
+from fibonacci.apps.fib_cached import fibonacci_cached, fibonacci_lru_cached
+from fibonacci.apps.fib_recursive import fibonacci_naive
 import pytest
 from typing import Callable
 
