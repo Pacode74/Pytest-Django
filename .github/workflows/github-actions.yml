@@ -9,7 +9,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  Django Company API tests:
+  DjangoAPI-Test:
 
     runs-on: ubuntu-latest
 
@@ -36,7 +36,7 @@ jobs:
         echo $SECRET_KEY
         echo $EMAIL_HOST_PASSWORD
         pytest api/coronavstech -s -v --durations=0 --cov=.
-  Fibonacci tests:
+  Fibonacci-Test:
     runs-on: ubuntu-latest
 
     steps:
