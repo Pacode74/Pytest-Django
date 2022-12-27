@@ -1,3 +1,4 @@
+from fibonacci.apps.fib_dynamic import fibonacci_dynamic, fibonacci_dynamic_v2
 from fibonacci.apps.fib_cached import fibonacci_cached, fibonacci_lru_cached
 from fibonacci.apps.fib_recursive import fibonacci_naive
 from fibonacci.apps.time_tracking_fixture import time_tracker
@@ -75,5 +76,25 @@ def test_fibonacci(
 ) -> None:
     """If we increase the fibonacci number to 40 we can see a performance improvement
     between naive and cached implementation. We add a time_tracker for each test to see the difference."""
+    res = fib_func(n)
+    assert res == expected
+
+
+@pytest.mark.parametrize(
+    "fib_func",
+    [
+        fibonacci_naive,
+        fibonacci_cached,
+        fibonacci_lru_cached,
+        fibonacci_dynamic,
+        fibonacci_dynamic_v2,
+    ],
+)
+@pytest.mark.parametrize("n, expected", [(0, 0), (1, 1), (2, 1), (20, 6765)])
+def test_fibonacci(
+    time_tracker, fib_func: Callable[[int], int], n: int, expected: int
+) -> None:
+    """The same tests as above except that we added fibonacci_dynamic to see
+    the performance difference"""
     res = fib_func(n)
     assert res == expected
