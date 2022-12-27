@@ -1,5 +1,7 @@
 from functools import lru_cache
+
 cache = {}
+
 
 def fibonacci_cached(n: int) -> int:
     if n in cache:
