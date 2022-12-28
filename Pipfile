@@ -13,6 +13,7 @@ black = "*"
 autopep8 = "*"
 pytest-django = "*"
 pytest-cov = "*"
+pytest-xdist = "*"
 
 [dev-packages]
 
