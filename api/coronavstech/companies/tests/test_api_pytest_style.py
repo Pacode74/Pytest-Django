@@ -1,3 +1,4 @@
+from typing import List
 import json
 from django.urls import reverse
 import pytest
@@ -96,12 +97,85 @@ def company(**kwargs):
 
 
 def test_multiple_companies_exists_should_succeed_with_fixture(client, company) -> None:
-    """Test that validate that when we get a GET request to our
+    """The same test as above but now with fixture.
+    Test that validate that when we get a GET request to our
     companies endpoint we indeed get the companies that stored in database."""
     tiktok = company(name="TikTok")
     twitch = company(name="Twitch")
     test_company = company()
     company_names = {twitch.name, tiktok.name, test_company.name}
+    print(f"{company_names=}")
+    response_companies = client.get(companies_url).json()
+    assert len(company_names) == len(response_companies)
+    response_company_names = set(
+        map(lambda company: company.get("name"), response_companies)
+    )
+    assert company_names == response_company_names
+
+
+@pytest.fixture
+def companies(request, company) -> List[Company]:
+    """This fixture will use company fixture. company fixture return
+    the company with the name. Pytest request is an object holding a metadata
+    of our test. This is a way to pass parameters into the fixture."""
+    companies = []
+    names = request.param
+    print(f"{names=}")
+    for name in names:
+        companies.append(company(name=name))
+    return companies  # companies will hold a list of companies
+
+
+@pytest.mark.parametrize(
+    "companies",
+    [["TikTok", "Twitch", "Test Company INC"], ["Facebook", "Instagram"]],
+    indirect=True,
+)
+def test_multiple_companies_exists_should_succeed_with_fixture_parameterized(
+    client, companies
+) -> None:
+    """The same test as above but now with fixture parameterized.
+    Test that validate that when we get a GET request to our
+    companies endpoint we indeed get the companies that stored in database.
+    We are going to parameterize companies fixture and run the test twice.
+    First time we call it with three companies: tiktok, twitch, and Test Company INC.
+    Second time we call it with Facebook and Instagram.
+    Above parameter inderect=True tells pytest to take different companies parameters
+    and pass it into companies fixture.
+    """
+    company_names = set(
+        map(lambda x: x.name, companies)
+    )  # extracting a set of company names
+    print(f"{company_names=}")
+    response_companies = client.get(companies_url).json()
+    assert len(company_names) == len(response_companies)
+    response_company_names = set(
+        map(lambda company: company.get("name"), response_companies)
+    )
+    assert company_names == response_company_names
+
+
+@pytest.mark.parametrize(
+    "companies",
+    [["TikTok", "Twitch", "Test Company INC"], ["Facebook", "Instagram"]],
+    indirect=True,
+    ids=["3 T companies", "Zuckerberg's companies"],
+)
+def test_multiple_companies_exists_should_succeed_with_fixture_parameterized_with_ids(
+    client, companies
+) -> None:
+    """The same test as above but now with fixture parameterized and ids.
+    Test that validate that when we get a GET request to our
+    companies endpoint we indeed get the companies that stored in database.
+    We are going to parameterize companies fixture and call it twice.
+    First time we call it with three companies: tiktok, twitch, and Test Company INC.
+    Second time we call it with Facebook and Instagram.
+    Above parameter inderect=True tells pytest to take different companies parameters
+    and pass it into companies fixture.
+    """
+    company_names = set(
+        map(lambda x: x.name, companies)
+    )  # extracting a set of company names
     print(f"{company_names=}")
     response_companies = client.get(companies_url).json()
     assert len(company_names) == len(response_companies)
