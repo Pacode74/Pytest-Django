@@ -1,4 +1,4 @@
-from typing import List
+
 import json
 from django.urls import reverse
 import pytest
@@ -48,14 +48,9 @@ def test_one_company_exists_should_succeed(client) -> None:
     assert response_content.get("notes") == ""
 
 
-@pytest.fixture
-def amazon() -> Company:
-    """Fixture value is fixed on amazon"""
-    return Company.objects.create(name="Amazon")
-
 
 def test_one_company_exists_should_succeed_with_fixtures(client, amazon) -> None:
-    """The test does the same as above test but now using fixtures."""
+    """The test does the same as above test but now using amazon fixtures."""
     response = client.get(companies_url)
     print(response.content)
     response_content = json.loads(response.content)[0]
@@ -82,22 +77,8 @@ def test_multiple_companies_exists_should_succeed(client) -> None:
     assert company_names == response_company_names
 
 
-@pytest.fixture
-def company(**kwargs):
-    """Fixture that receives an argument of a name, and
-    it will return us the company with that name.
-    This fixture returns a function which takes some arguments
-    and that function return us a company"""
-
-    def _company_factory(**kwargs) -> Company:
-        company_name = kwargs.pop("name", "Test Company INC")
-        return Company.objects.create(name=company_name, **kwargs)
-
-    return _company_factory
-
-
 def test_multiple_companies_exists_should_succeed_with_fixture(client, company) -> None:
-    """The same test as above but now with fixture.
+    """The same test as above but now with company fixture.
     Test that validate that when we get a GET request to our
     companies endpoint we indeed get the companies that stored in database."""
     tiktok = company(name="TikTok")
@@ -113,18 +94,6 @@ def test_multiple_companies_exists_should_succeed_with_fixture(client, company) 
     assert company_names == response_company_names
 
 
-@pytest.fixture
-def companies(request, company) -> List[Company]:
-    """This fixture will use company fixture. company fixture return
-    the company with the name. Pytest request is an object holding a metadata
-    of our test. This is a way to pass parameters into the fixture."""
-    companies = []
-    names = request.param
-    print(f"{names=}")
-    for name in names:
-        companies.append(company(name=name))
-    return companies  # companies will hold a list of companies
-
 
 @pytest.mark.parametrize(
     "companies",
@@ -135,6 +104,7 @@ def test_multiple_companies_exists_should_succeed_with_fixture_parameterized(
     client, companies
 ) -> None:
     """The same test as above but now with fixture parameterized.
+    It uses companies fixture.
     Test that validate that when we get a GET request to our
     companies endpoint we indeed get the companies that stored in database.
     We are going to parameterize companies fixture and run the test twice.
