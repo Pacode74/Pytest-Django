@@ -1,6 +1,6 @@
 import pytest
-from time import sleep
 from fibonacci.apps.fib_dynamic import fibonacci_dynamic_v2
+
 ## Option 1: Result is the same as option 2. I separated decorator and fixture:
 # from fibonacci.apps.track_performance_decorator import track_performance_decorator
 

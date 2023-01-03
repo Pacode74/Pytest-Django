@@ -24,7 +24,9 @@ class PerformanceException(Exception):
         return f"Performance test failed, runtime: {self.runtime.total_seconds()}, limit: {self.limit.total_seconds()}"
 
 
-def track_performance_decorator(method: Callable, runtime_limit=timedelta(seconds=2)):  # (1)
+def track_performance_decorator(
+    method: Callable, runtime_limit=timedelta(seconds=2)
+):  # (1)
     """Decorator that check the time performance of a function and
     when runtime limit is exceeded it raises Performance Exception."""
 

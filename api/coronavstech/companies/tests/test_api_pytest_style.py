@@ -15,8 +15,8 @@ from api.coronavstech.companies.exception_logging.raise_covid19_exception import
 )
 
 """
-Look at explanation in notebook 'Pytest automatic testing for our Django application_Section 6'
-in Step 30 - Refractoring our unittest code to pytest code. Migrating tests to native Pytest.
+run specific test:
+Pytest-Django) pavlo@pavlo:~/Documents/Projects/Pytest-Django$ pytest absolute_path_totest_file -k test_function
 """
 
 companies_url = reverse("companies-list")
@@ -45,6 +45,70 @@ def test_one_company_exists_should_succeed(client) -> None:
     assert response_content.get("status") == "Hiring"
     assert response_content.get("application_link") == ""
     assert response_content.get("notes") == ""
+
+
+@pytest.fixture
+def amazon() -> Company:
+    """Fixture value is fixed on amazon"""
+    return Company.objects.create(name="Amazon")
+
+
+def test_one_company_exists_should_succeed_with_fixtures(client, amazon) -> None:
+    """The test does the same as above test but now using fixtures."""
+    response = client.get(companies_url)
+    print(response.content)
+    response_content = json.loads(response.content)[0]
+    assert response.status_code == 200
+    assert response_content.get("name") == amazon.name
+    assert response_content.get("status") == "Hiring"
+    assert response_content.get("application_link") == ""
+    assert response_content.get("notes") == ""
+
+
+def test_multiple_companies_exists_should_succeed(client) -> None:
+    """Test that validate that when we get a GET request to our
+    companies endpoint we indeed get the companies that stored in database."""
+    twitch = Company.objects.create(name="Twitch")
+    tiktok = Company.objects.create(name="TikTok")
+    test_company = Company.objects.create(name="Test Company INC")
+    company_names = {twitch.name, tiktok.name, test_company.name}
+    print(f"{company_names=}")
+    response_companies = client.get(companies_url).json()
+    assert len(company_names) == len(response_companies)
+    response_company_names = set(
+        map(lambda company: company.get("name"), response_companies)
+    )
+    assert company_names == response_company_names
+
+
+@pytest.fixture
+def company(**kwargs):
+    """Fixture that receives an argument of a name, and
+    it will return us the company with that name.
+    This fixture returns a function which takes some arguments
+    and that function return us a company"""
+
+    def _company_factory(**kwargs) -> Company:
+        company_name = kwargs.pop("name", "Test Company INC")
+        return Company.objects.create(name=company_name, **kwargs)
+
+    return _company_factory
+
+
+def test_multiple_companies_exists_should_succeed_with_fixture(client, company) -> None:
+    """Test that validate that when we get a GET request to our
+    companies endpoint we indeed get the companies that stored in database."""
+    tiktok = company(name="TikTok")
+    twitch = company(name="Twitch")
+    test_company = company()
+    company_names = {twitch.name, tiktok.name, test_company.name}
+    print(f"{company_names=}")
+    response_companies = client.get(companies_url).json()
+    assert len(company_names) == len(response_companies)
+    response_company_names = set(
+        map(lambda company: company.get("name"), response_companies)
+    )
+    assert company_names == response_company_names
 
 
 # ------TestPostCompanies---------------------------
@@ -145,3 +209,6 @@ def test_logged_info_level(caplog) -> None:
         logger()  # imported from exception_logging
         print(f".caplog.text:{caplog.text}")
         assert "I am logging info level" in caplog.text
+
+
+# ---------- learn about fixtures -------------------
