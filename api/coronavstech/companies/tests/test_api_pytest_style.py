@@ -1,4 +1,3 @@
-
 import json
 from django.urls import reverse
 import pytest
@@ -48,7 +47,6 @@ def test_one_company_exists_should_succeed(client) -> None:
     assert response_content.get("notes") == ""
 
 
-
 def test_one_company_exists_should_succeed_with_fixtures(client, amazon) -> None:
     """The test does the same as above test but now using amazon fixtures."""
     response = client.get(companies_url)
@@ -92,7 +90,6 @@ def test_multiple_companies_exists_should_succeed_with_fixture(client, company) 
         map(lambda company: company.get("name"), response_companies)
     )
     assert company_names == response_company_names
-
 
 
 @pytest.mark.parametrize(
