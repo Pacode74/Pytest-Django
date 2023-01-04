@@ -5,7 +5,7 @@ from fibonacci.apps.fib_dynamic import fibonacci_dynamic_v2
 # from fibonacci.apps.track_performance_decorator import track_performance_decorator
 
 ## Option 2: Result is the same as option 1. Teacher didn't separate decorator and fixture:
-from tests.conftest import track_performance_decorator
+from fibonacci.tests.conftest import track_performance_decorator
 
 
 @pytest.mark.performance
