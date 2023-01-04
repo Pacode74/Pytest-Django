@@ -35,7 +35,7 @@ jobs:
         echo $DJANGO_SETTINGS_MODULE
         echo $SECRET_KEY
         echo $EMAIL_HOST_PASSWORD
-        pytest api/coronavstech -s -v --durations=0 --cov=.
+        pytest api/coronavstech -s -v --durations=0 --cov=. -m "not skip_in_ci"
   Fibonacci-Test:
     runs-on: ubuntu-latest
 

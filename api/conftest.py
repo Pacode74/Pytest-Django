@@ -2,6 +2,7 @@ from api.coronavstech.companies.models import Company
 import pytest
 from typing import List
 
+
 @pytest.fixture
 def amazon() -> Company:
     """Fixture value is fixed on amazon"""
