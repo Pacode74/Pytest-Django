@@ -13,6 +13,9 @@ testing_env_companies_url = (
 
 
 @pytest.mark.skip_in_ci
+@pytest.mark.skip(reason="This test needs localhost django server running. Torun the server type"
+                         "(Pytest-Django) pavlo@pavlo:~/Documents/Projects/Pytest-Django$ api/coronavstech/"
+                         "manage.py runserver")
 def test_zero_companies_should_return_empty_list_django_agnostic() -> None:
     """Test that we GET zero companies. If we fetch the GET request we expect to get empty list."""
     response = requests.get(url=testing_env_companies_url)
@@ -24,6 +27,9 @@ def test_zero_companies_should_return_empty_list_django_agnostic() -> None:
 
 
 @pytest.mark.skip_in_ci
+@pytest.mark.skip(reason="This test needs localhost django server running. Torun the server type"
+                         "(Pytest-Django) pavlo@pavlo:~/Documents/Projects/Pytest-Django$ api/coronavstech/"
+                         "manage.py runserver")
 def test_create_company_with_layoffs_status_should_succeed_django_agnostic() -> None:
     response = requests.post(
         url=testing_env_companies_url,
