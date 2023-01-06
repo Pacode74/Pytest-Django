@@ -16,6 +16,7 @@ pytest-cov = "*"
 pytest-xdist = "*"
 requests = "*"
 responses = "*"
+allure-pytest = "*"
 
 [dev-packages]
 
