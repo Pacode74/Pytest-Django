@@ -18,6 +18,7 @@ requests = "*"
 responses = "*"
 allure-pytest = "*"
 pytest-sugar = "*"
+pytest-env = "*"
 
 [dev-packages]
 
