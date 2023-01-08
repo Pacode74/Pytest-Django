@@ -95,7 +95,6 @@ my_jupyter_notebooks/
 # api/coronavstech/coronavstech/settings.py
 api/coronavstech/db.sqlite3
 api/coronavstech/db.sqlite3_clone
-/db.sqlite3_clone2
 
 # Exclude pipenv virtual environment files:
 .venv/
